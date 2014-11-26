@@ -1,8 +1,10 @@
 package Server;
 
+import java.awt.image.ReplicateScaleFilter;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import Socket.UDPSocket;
 
@@ -10,8 +12,7 @@ public class Server{
 	
 	public static void main(String[] args) throws IOException {
 		
-	
-		ArrayList<user> users = new ArrayList();
+		ArrayList<User> users = new ArrayList<User>();
 		
 		UDPSocket udpSocket = null;
 		try {
@@ -28,26 +29,24 @@ public class Server{
 				String request = udpSocket.receive(20);
 				
 				
-				if(request.contains("%ID%")){
+				if(request.contains("%Hello Server%")) {
 					
-					user tempuser = new user("127.0.0.1",1250, request.substring( 4 ));
-				
+					String tempID = replyUniqueID();
+					
+					User tempuser = new User("127.0.0.1",1250, tempID);
 					users.add(tempuser);
+					
+					udpSocket.reply(tempID);
 					System.out.println("Erfolgreich angemeldet");
 					System.out.println(users.toString());
-				
-								
-			
 				}
-				else{
-					
-						// generate answer
-						String answer = "Nachricht erhalten";
+				else {
+					// generate answer
+					String answer = "Nachricht erhalten";
 						
-						// send answer
-						udpSocket.reply(answer);
-					
-					}
+					// send answer
+					udpSocket.reply(answer);
+				}
 			}
 			
 		} catch (SocketException e) {
@@ -59,8 +58,11 @@ public class Server{
 				udpSocket.close();
 			}
 		}
-		
-		
+	}
+	
+	private static String replyUniqueID ()
+	{
+		return UUID.randomUUID().toString();
 	}
 	
 }
