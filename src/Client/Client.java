@@ -33,7 +33,7 @@ public class Client{
 			while(true){
 
 				System.out.println("Nachricht eingeben");
-				eingabe = sc.next();
+				eingabe = sc.nextLine();
 
 				udpSocket.send(eingabe, serverAddr, 1250);
 				String reply = null;
