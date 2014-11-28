@@ -70,7 +70,7 @@ public class UDPSocket
 	{
 		socket.close();
 	}
-	
+
 	byte[] toBytes(int i)
 	{
 	  byte[] result = new byte[4];
