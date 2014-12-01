@@ -24,7 +24,7 @@ public class Client{
 				
 				System.out.println(result);
 				
-			} while (!eingabe.equals("ENDE"));
+			} while (!eingabe.equals("Disconnect"));
 			
 		} catch (Exception e) {
 			System.out.println(e);

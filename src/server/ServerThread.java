@@ -16,23 +16,24 @@ public class ServerThread extends Thread{
 	
 	public void run()
 	{
-		String request;
+		String request = "";
 		
-		try {
-			
-			request = connection.receiveLine();
-			
-			if(request != null)
-			{
-				System.out.println(request);
+		do {
+			try {
+
+				request = connection.receiveLine();
+
+				if (request != null) {
+					System.out.println(request);
+				}
+
+				connection.sendLine(request);
+
+			} catch (Exception e) {
+				System.out.println(e);
 			}
-			
-			connection.sendLine(request);
-			
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
+		} while (!request.equals("Disconnect"));
+
 		System.out.println("Verbindung wird geschlossen");
 		
 		try {
