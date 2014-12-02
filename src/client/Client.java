@@ -17,7 +17,7 @@ public class Client{
 			
 			connection = new TCPConnection("127.0.0.1", 8888);
 			
-			System.out.println("Die Verbindung wurde erfolgreich aufgebaut ...");
+			System.out.println("Die Verbindung wurde erfolgreich aufgebaut!");
 			
 			do {
 				eingabe = sc.nextLine();
@@ -30,7 +30,7 @@ public class Client{
 			} while (!eingabe.equals("Disconnect"));
 			
 		} catch (Exception e) {
-			System.out.println(e + " - Keine Verbindung zum Server möglich");
+			System.out.println(e + " - Keine Verbindung zum Server mï¿½glich");
 		}
 		
 		if (connection != null) {

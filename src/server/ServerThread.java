@@ -7,15 +7,18 @@ import network.TCPConnection;
 public class ServerThread extends Thread{
 
 	private TCPConnection connection;
+	private String uniqueID;
 	
-	public ServerThread(TCPConnection tcpSocket)
+	public ServerThread(TCPConnection tcpSocket, String ID)
 	{
 		this.connection = tcpSocket;
+		this.uniqueID = ID;
 		this.start();
 	}
 	
 	public void run()
 	{
+		System.out.println("Verbindung mit " + uniqueID + " erfolgreich aufgebaut!");
 		String request = "";
 		
 		do {
@@ -27,7 +30,7 @@ public class ServerThread extends Thread{
 					System.out.println(request);
 				}
 
-				connection.sendLine(request);
+				connection.sendLine(uniqueID + request);
 
 			} catch (Exception e) {
 				System.out.println(e);

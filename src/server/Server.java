@@ -1,6 +1,7 @@
 package server;
 
 import java.net.ServerSocket;
+import java.util.UUID;
 
 import network.TCPConnection;
 
@@ -27,12 +28,17 @@ public class Server{
 				System.out.println("Warten auf Verbindungsaufbau...");
 				TCPConnection tcpConnection = new TCPConnection(serverSocket.accept());
 				
-				new ServerThread(tcpConnection);
+				new ServerThread(tcpConnection, createUniqueID() );
 				
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 		}
+	}
+	
+	private static String createUniqueID ()
+	{
+		return UUID.randomUUID().toString().substring(0, 19);
 	}
 	
 	
