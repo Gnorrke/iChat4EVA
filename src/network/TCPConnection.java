@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -25,7 +26,7 @@ public class TCPConnection {
 	{
 		this.socket = socket;
 		initializeStreams();
-	}
+			}
 	
 	public void sendLine(String s) throws IOException
 	{
@@ -49,4 +50,11 @@ public class TCPConnection {
 		outputStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	}
+	
+	public InetAddress getInetAddress(){
+		
+		return socket.getInetAddress();
+	}
+	
 }
+

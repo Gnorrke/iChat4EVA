@@ -30,7 +30,7 @@ public class Client{
 			} while (!eingabe.equals("Disconnect"));
 			
 		} catch (Exception e) {
-			System.out.println(e + " - Keine Verbindung zum Server mï¿½glich");
+			System.out.println(e + " - Keine Verbindung zum Server möglich");
 		}
 		
 		if (connection != null) {
