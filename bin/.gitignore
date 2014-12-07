@@ -1,2 +1,5 @@
-/server/
+/controller/
+/model/
+/interfaces/
 /client/
+/server/
