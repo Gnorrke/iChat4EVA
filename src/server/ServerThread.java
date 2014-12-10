@@ -50,5 +50,7 @@ public class ServerThread extends Thread{
 				break;
 			}
 		}
+		
+		Server.removeUser(uniqueID);
 	}
 }

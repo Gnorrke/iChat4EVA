@@ -2,6 +2,8 @@ package client.model;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import network.TCPConnection;
 
 public class ClientModel {
@@ -51,7 +53,13 @@ public class ClientModel {
 
 	public void send(String msg) throws IOException {
 
-		connection.sendLine(id + msg);
+		try {
+			connection.sendLine(id + msg);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Der Server hat die Verbindung abgebrochen oder wurde beendet!", "Fehler!", JOptionPane.WARNING_MESSAGE);
+			System.exit(-1);
+			e.printStackTrace();
+		}
 	}
 
 	public String receive() throws IOException {
