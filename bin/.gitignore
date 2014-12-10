@@ -1,5 +1,3 @@
-/controller/
-/model/
-/interfaces/
-/client/
+/network/
 /server/
+/client/

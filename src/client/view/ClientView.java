@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ClientView extends JFrame {
@@ -14,7 +16,7 @@ public class ClientView extends JFrame {
 	
 	private JLabel labelEingabe = new JLabel("Eingabe: ");
 	private JTextField txtEingabe = new JTextField();
-	private JLabel txtChat = new JLabel();
+	private JTextArea txtChat = new JTextArea();
 	private JButton buttonSenden = new JButton("Senden");
 	
 	public ClientView() {
@@ -29,9 +31,10 @@ public class ClientView extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(4, 0));
 		this.setBounds(200, 200, 500, 300);
+		this.txtChat.setEditable(false);
 		
 		this.add(labelEingabe);
-		this.add(txtChat);
+		this.add(new JScrollPane(txtChat));
 		this.add(txtEingabe);
 		this.add(buttonSenden);
 	}
@@ -45,7 +48,7 @@ public class ClientView extends JFrame {
 	}
 	
 	public void addMessage(String msg) {
-		this.txtChat.setText(msg);
+		this.txtChat.setText(this.txtChat.getText() + "\n" + msg);
 	}
 
 	public void setSendMessageListener(ActionListener l) {
