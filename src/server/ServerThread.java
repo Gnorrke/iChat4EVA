@@ -35,7 +35,17 @@ public class ServerThread extends Thread{
 
 				else if (request != null) {
 					System.out.println(request.substring(20));
-					connection.sendLine(uniqueID + request.substring(20));
+					
+					//Nachricht an alle Clients weiterleiten
+					for (TCPConnection connection : Server.connection_list) {
+						
+						
+						connection.sendLine(uniqueID + request.substring(20));
+						
+						
+					}
+					
+					//connection.sendLine(uniqueID + request.substring(20));
 				}
 
 			} catch (Exception e) {

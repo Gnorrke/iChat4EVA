@@ -13,6 +13,8 @@ public class Server {
 
 	static List<User> user_list = Collections
 			.synchronizedList(new ArrayList<User>());
+	static List<TCPConnection> connection_list = Collections
+			.synchronizedList(new ArrayList<TCPConnection>());
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
@@ -46,6 +48,9 @@ public class Server {
 				String ID = createUniqueID();
 
 				addUser(tcpConnection.getInetAddress(), 8888, ID);
+				
+				connection_list.add(tcpConnection);
+				
 				showUserlist();
 				new ServerThread(tcpConnection, ID);
 
