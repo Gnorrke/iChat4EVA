@@ -1,5 +1,6 @@
 package server;
 
+
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -7,14 +8,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+
 import network.TCPConnection;
 
 public class Server {
 
 	static List<User> user_list = Collections
 			.synchronizedList(new ArrayList<User>());
-	static List<TCPConnection> connection_list = Collections
-			.synchronizedList(new ArrayList<TCPConnection>());
+
+//	static List<TCPConnection> connection_list = Collections
+//			.synchronizedList(new ArrayList<TCPConnection>());
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
@@ -47,9 +50,11 @@ public class Server {
 				// Client ID vergeben und in User-Liste eintragen
 				String ID = createUniqueID();
 
-				addUser(tcpConnection.getInetAddress(), 8888, ID);
+				addUser(tcpConnection.getInetAddress(), 8888, ID, tcpConnection);
 				
-				connection_list.add(tcpConnection);
+			
+			
+				//connection_list.add(tcpConnection);
 				
 				showUserlist();
 				new ServerThread(tcpConnection, ID);
@@ -71,13 +76,14 @@ public class Server {
 		for (User user : user_list) {
 			i++;
 			System.out.println("User " + i + " ID: " + user.getID() + " IP: "
-					+ user.getAddress() + " Port: " + user.getPort());
+					+ user.getAddress() + " Port: " + user.getPort() + " Connection: " 
+					+ user.getConnection().toString());
 		}
 		System.out.println();
 	}
 
-	public static void addUser(InetAddress address, int port, String id) {
-		user_list.add(new User(address, port, id));
+	public static void addUser(InetAddress address, int port, String id,TCPConnection connection) {
+		user_list.add(new User(address, port, id, connection));
 	}
 
 	public static void removeUser(String id) {

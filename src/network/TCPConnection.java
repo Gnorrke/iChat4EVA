@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+
 public class TCPConnection {
 
 	private Socket socket;
@@ -46,6 +47,7 @@ public class TCPConnection {
 		inputStream = new BufferedReader(new InputStreamReader(
 				socket.getInputStream()));
 	}
+	
 
 	public InetAddress getInetAddress() {
 

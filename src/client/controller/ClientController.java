@@ -4,6 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+
+
+
+
+
+
+import network.TCPConnection;
 import client.model.ClientModel;
 import client.view.ClientView;
 
@@ -12,8 +19,11 @@ public class ClientController {
 	private ClientView view;
 	private ClientModel model;
 	
-	public ClientController() {
+	
+	public ClientController(TCPConnection connection, String id) {
 		this.model = new ClientModel();
+		model.setConnection(connection);
+		model.setID(id);
 		this.view = new ClientView();
 		
 		addListener();
@@ -30,18 +40,39 @@ public class ClientController {
 	
 	private void addListener(){
 		this.view.setSendMessageListener(new SendMessageListener());
+		
+		
 	}
+	
 	
 	class SendMessageListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
 				model.send(view.getEingabe());
-				view.addMessage(model.receive());
+				
 				
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 	}
+
+
+	public synchronized  void RecevieMesseage() {
+		try {
+			//System.out.println("RecevieMesseage()");
+			view.addMessage(model.receive());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+
+
+
+	
+
 }
