@@ -11,12 +11,14 @@ public class ClientModel {
 	private static TCPConnection connection = null;
 	private String letzteNachricht;
 	private String result;
+	private String[] userList;
 	private String id;
 
 	public ClientModel() {
 
 		this.letzteNachricht = "";
 		this.result = "";
+		this.userList = new String[100];
 		this.id = "";
 		
 		connect();
@@ -32,6 +34,8 @@ public class ClientModel {
 			// Handshake
 			connection.sendLine("%GETID%");
 			id = connection.receiveLine();
+			
+			receiveUserList();
 			System.out.println("Die Verbindung wurde erfolgreich aufgebaut!");
 
 		} catch (Exception e) {
@@ -65,12 +69,26 @@ public class ClientModel {
 	public String receive() throws IOException {
 
 		result = connection.receiveLine().substring(20);
-		System.out.println(result);
+		//System.out.println(result);
 		return result;
+	}
+	
+	public void receiveUserList() throws IOException {
+
+		connection.sendLine("%GETUSERLIST%");
+		result = connection.receiveLine();
+		
+		for(int i = 0; i < (result.length() / 20)-1; i++) {
+			
+			System.out.println(result.substring(i*20, (i+1) * 20 ));
+		}
 	}
 
 	public String getLetzteNachricht() {
 		return letzteNachricht;
 	}
 
+	public void setID(String id){
+		this.id = id;
+	}
 }

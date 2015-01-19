@@ -1,15 +1,12 @@
 package client.main;
 
-import client.controller.ClientController;
-
+import client.model.ClientThread;
 
 public class DemoClient {
 
-	static ClientController controller;
-	
 	public static void main(String[] args) {
-		
-		controller = new ClientController();
-		controller.showView();
+
+		ClientThread client = new ClientThread();
+		client.start();
 	}
 }

@@ -4,26 +4,22 @@ import java.io.IOException;
 
 import network.TCPConnection;
 
-public class ServerThread extends Thread{
+public class ServerThread extends Thread {
 
-	
-	
 	private TCPConnection connection;
 	private String uniqueID;
-	
-	public ServerThread(TCPConnection tcpSocket, String ID)
-	{
+
+	public ServerThread(TCPConnection tcpSocket, String ID) {
 		this.connection = tcpSocket;
 		this.uniqueID = ID;
 		this.start();
 	}
-	
-	public void run()
-	{
-		System.out.println("Verbindung mit " + uniqueID + " erfolgreich aufgebaut!");
+
+	public void run() {
+		System.out.println("Verbindung mit " + uniqueID
+				+ " erfolgreich aufgebaut!");
 		String request = "";
 
-		
 		while (true) {
 			try {
 
@@ -31,36 +27,40 @@ public class ServerThread extends Thread{
 
 				if (request.equals("%GETID%")) {
 					connection.sendLine(uniqueID);
+				} else if (request.equals("%GETUSERLIST%")) {
+					StringBuilder tmp = new StringBuilder();
+
+					for (User user : Server.getUserList()) {
+						tmp.append(user.getID());
+					}
+
+					connection.sendLine(uniqueID + tmp.toString());
 				}
 
-				else if (request != null) {
+				else {
 					System.out.println(request.substring(20));
-					
-					//Nachricht an alle Clients weiterleiten
+
 					for (TCPConnection connection : Server.connection_list) {
-						
-						
 						connection.sendLine(uniqueID + request.substring(20));
-						
-						
 					}
-					
-					//connection.sendLine(uniqueID + request.substring(20));
+
+					// connection.sendLine(uniqueID + request.substring(20));
 				}
 
 			} catch (Exception e) {
-				System.out.println("Der Client " + uniqueID + " hat die Verbindung geschlossen");
+				System.out.println("Der Client " + uniqueID
+						+ " hat die Verbindung geschlossen");
 				try {
 					connection.close();
-					
+
 				} catch (IOException ex) {
 					System.out.println(ex);
 				}
-				
+
 				break;
 			}
 		}
-		
+
 		Server.removeUser(uniqueID);
 	}
 }

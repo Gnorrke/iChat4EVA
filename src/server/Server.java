@@ -48,9 +48,9 @@ public class Server {
 				String ID = createUniqueID();
 
 				addUser(tcpConnection.getInetAddress(), 8888, ID);
-				
+
 				connection_list.add(tcpConnection);
-				
+
 				showUserlist();
 				new ServerThread(tcpConnection, ID);
 
@@ -87,5 +87,9 @@ public class Server {
 				break;
 			}
 		}
+	}
+
+	public static List<User> getUserList() {
+		return user_list;
 	}
 }

@@ -1,14 +1,19 @@
 package client.view;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 public class ClientView extends JFrame {
 
@@ -18,6 +23,13 @@ public class ClientView extends JFrame {
 	private JTextField txtEingabe = new JTextField();
 	private JTextArea txtChat = new JTextArea();
 	private JButton buttonSenden = new JButton("Senden");
+	private String Data[] = {};
+	private JList<String> userList = new JList<String>(Data);
+	
+	private JPanel leftPanel = new JPanel();
+	private JPanel middlePanel = new JPanel();
+	private JPanel topPanel = new JPanel();
+
 	
 	public ClientView() {
 		super("iChat4EVA Client");
@@ -29,14 +41,37 @@ public class ClientView extends JFrame {
 	 */
 	private void initForm() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(new GridLayout(4, 0));
-		this.setBounds(200, 200, 500, 300);
+		this.setLayout(new BorderLayout(0, 5));
+		this.setResizable(false);
+		this.setBounds(550, 200, 600, 650);
 		this.txtChat.setEditable(false);
 		
-		this.add(labelEingabe);
-		this.add(new JScrollPane(txtChat));
-		this.add(txtEingabe);
-		this.add(buttonSenden);
+		// initialize components
+		userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		userList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		userList.setVisibleRowCount(-1);
+		JScrollPane listScroller = new JScrollPane(userList);
+		listScroller.setPreferredSize(new Dimension(250, 80));
+		
+		// initialize leftPanel
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+		leftPanel.add(userList);
+		
+		// initialize middlePanel
+		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
+		middlePanel.add(txtEingabe);
+		middlePanel.add(buttonSenden);
+		
+		// initialize topPanel
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
+		topPanel.setPreferredSize(new Dimension(100, 250));
+		topPanel.setMaximumSize(new Dimension(100, 250));
+		topPanel.add(txtChat);
+		topPanel.add(labelEingabe);
+
+		this.add(leftPanel, BorderLayout.WEST);
+		this.add(middlePanel, BorderLayout.CENTER);
+		this.add(topPanel, BorderLayout.PAGE_START);
 	}
 	
 	public void resetView() {
