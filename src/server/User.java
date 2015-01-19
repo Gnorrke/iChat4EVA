@@ -2,20 +2,16 @@ package server;
 
 import java.net.InetAddress;
 
-import network.TCPConnection;
-
 public class User {
 	
 	private InetAddress address;
 	private int port;
 	private String ID;
-	private TCPConnection connection;
 	
-	public User(InetAddress adress,int port,String ID,TCPConnection connection){
+	public User(InetAddress adress,int port,String ID){
 		this.address = adress;
 		this.port = port;
 		this.ID = ID;
-		this.connection = connection;
 	}
 	
 	public InetAddress getAddress() {
@@ -36,17 +32,5 @@ public class User {
 	
 	public String getID() {
 		return ID;
-	}
-	
-	public TCPConnection getConnection(){
-		
-		return connection;
-		
-	}
-	
-	public void setConnection(TCPConnection connection){
-		
-		this.connection = connection;
-		
 	}
 }

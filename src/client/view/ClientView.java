@@ -3,18 +3,12 @@ package client.view;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
-
-
-
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.text.DefaultCaret;
-
 
 public class ClientView extends JFrame {
 
@@ -22,12 +16,8 @@ public class ClientView extends JFrame {
 	
 	private JLabel labelEingabe = new JLabel("Eingabe: ");
 	private JTextField txtEingabe = new JTextField();
-	
 	private JTextArea txtChat = new JTextArea();
-	//"auto scroll down"
-	private DefaultCaret caret = (DefaultCaret) txtChat.getCaret();	
 	private JButton buttonSenden = new JButton("Senden");
-
 	
 	public ClientView() {
 		super("iChat4EVA Client");
@@ -47,7 +37,6 @@ public class ClientView extends JFrame {
 		this.add(new JScrollPane(txtChat));
 		this.add(txtEingabe);
 		this.add(buttonSenden);
-	
 	}
 	
 	public void resetView() {
@@ -60,15 +49,10 @@ public class ClientView extends JFrame {
 	
 	public void addMessage(String msg) {
 		this.txtChat.setText(this.txtChat.getText() + "\n" + msg);
-		//"auto scroll down"
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	}
 
 	public void setSendMessageListener(ActionListener l) {
 		this.buttonSenden.addActionListener(l);
 	}
-
-	
-	
 
 }

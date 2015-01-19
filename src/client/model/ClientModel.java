@@ -1,6 +1,5 @@
 package client.model;
 
-
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
@@ -20,41 +19,40 @@ public class ClientModel {
 		this.result = "";
 		this.id = "";
 		
-//		connect();
+		connect();
 	}
 
-//	public void connect() {
-//
-//		try {
-//			System.out.println("Verbindungsaufbau ...");
-//
-//			connection = new TCPConnection("127.0.0.1", 8888);
-//
-//			// Handshake
-//			connection.sendLine("%GETID%");
-//			id = connection.receiveLine();
-//			System.out.println("Die Verbindung wurde erfolgreich aufgebaut!");
-//
-//		} catch (Exception e) {
-//			System.out.println(e + " - Keine Verbindung zum Server möglich");
-//			System.exit(-1);
-//		}
-//	}
-//
-//	public void disconnect() {
-//
-//		try {
-//			connection.close();
-//
-//		} catch (Exception e) {
-//			System.out.println(e);
-//			System.exit(-1);
-//		}
-//	}
+	public void connect() {
+
+		try {
+			System.out.println("Verbindungsaufbau ...");
+
+			connection = new TCPConnection("127.0.0.1", 8888);
+
+			// Handshake
+			connection.sendLine("%GETID%");
+			id = connection.receiveLine();
+			System.out.println("Die Verbindung wurde erfolgreich aufgebaut!");
+
+		} catch (Exception e) {
+			System.out.println(e + " - Keine Verbindung zum Server möglich");
+			System.exit(-1);
+		}
+	}
+
+	public void disconnect() {
+
+		try {
+			connection.close();
+
+		} catch (Exception e) {
+			System.out.println(e);
+			System.exit(-1);
+		}
+	}
 
 	public void send(String msg) throws IOException {
 
-		
 		try {
 			connection.sendLine(id + msg);
 		} catch (Exception e) {
@@ -74,19 +72,5 @@ public class ClientModel {
 	public String getLetzteNachricht() {
 		return letzteNachricht;
 	}
-	
-	public void setID(String id){
-		
-		this.id = id;
-		
-	}
-	
-	public void setConnection(TCPConnection connection){
-		
-		ClientModel.connection = connection;
-		
-	}
-	
-	
 
 }
