@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 public class TCPConnection {
 
 	private Socket socket;
@@ -33,7 +35,17 @@ public class TCPConnection {
 	}
 
 	public String receiveLine() throws IOException {
-		return inputStream.readLine();
+		String tmp = "";
+		try {
+			tmp = inputStream.readLine();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(
+					null,
+					"Der Server hat die Verbindung abgebrochen oder wurde beendet!",
+					"Fehler!", JOptionPane.WARNING_MESSAGE);
+			System.exit(-1);
+		}
+		return tmp;
 	}
 
 	public void close() throws IOException {

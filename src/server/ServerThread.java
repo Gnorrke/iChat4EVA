@@ -40,8 +40,8 @@ public class ServerThread extends Thread {
 				else {
 					System.out.println(request.substring(20));
 
-					for (TCPConnection connection : Server.connection_list) {
-						connection.sendLine(uniqueID + request.substring(20));
+					for (User user : Server.getUserList()) {
+						user.getTCPConnection().sendLine(uniqueID + request.substring(20));
 					}
 
 					// connection.sendLine(uniqueID + request.substring(20));

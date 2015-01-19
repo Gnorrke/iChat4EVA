@@ -1,6 +1,5 @@
 package server;
 
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,8 +45,7 @@ public class Server {
 
 				// Client ID vergeben und in User-Liste eintragen
 				String ID = createUniqueID();
-
-				addUser(tcpConnection.getInetAddress(), 8888, ID);
+				addUser(tcpConnection, 8888, ID);
 
 				connection_list.add(tcpConnection);
 
@@ -76,7 +74,7 @@ public class Server {
 		System.out.println();
 	}
 
-	public static void addUser(InetAddress address, int port, String id) {
+	public static void addUser(TCPConnection address, int port, String id) {
 		user_list.add(new User(address, port, id));
 	}
 
@@ -84,12 +82,12 @@ public class Server {
 		for (User user : user_list) {
 			if (user.getID().equals(id)) {
 				user_list.remove(user);
-				break;
+				return;
 			}
 		}
 	}
 
-	public static List<User> getUserList() {
+	public static synchronized List<User> getUserList() {
 		return user_list;
 	}
 }

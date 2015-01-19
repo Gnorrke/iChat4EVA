@@ -11,6 +11,7 @@ public class ClientModel {
 	private static TCPConnection connection = null;
 	private String letzteNachricht;
 	private String result;
+	@SuppressWarnings("unused")
 	private String[] userList;
 	private String id;
 
@@ -20,7 +21,7 @@ public class ClientModel {
 		this.result = "";
 		this.userList = new String[100];
 		this.id = "";
-		
+
 		connect();
 	}
 
@@ -34,7 +35,7 @@ public class ClientModel {
 			// Handshake
 			connection.sendLine("%GETID%");
 			id = connection.receiveLine();
-			
+
 			receiveUserList();
 			System.out.println("Die Verbindung wurde erfolgreich aufgebaut!");
 
@@ -60,7 +61,11 @@ public class ClientModel {
 		try {
 			connection.sendLine(id + msg);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Der Server hat die Verbindung abgebrochen oder wurde beendet!", "Fehler!", JOptionPane.WARNING_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Der Server hat die Verbindung abgebrochen oder wurde beendet!",
+							"Fehler!", JOptionPane.WARNING_MESSAGE);
 			System.exit(-1);
 			e.printStackTrace();
 		}
@@ -69,18 +74,18 @@ public class ClientModel {
 	public String receive() throws IOException {
 
 		result = connection.receiveLine().substring(20);
-		//System.out.println(result);
+		// System.out.println(result);
 		return result;
 	}
-	
+
 	public void receiveUserList() throws IOException {
 
 		connection.sendLine("%GETUSERLIST%");
 		result = connection.receiveLine();
-		
-		for(int i = 0; i < (result.length() / 20)-1; i++) {
-			
-			System.out.println(result.substring(i*20, (i+1) * 20 ));
+
+		for (int i = 0; i < (result.length() / 20) - 1; i++) {
+
+			System.out.println(result.substring(i * 20, (i + 1) * 20));
 		}
 	}
 
@@ -88,7 +93,7 @@ public class ClientModel {
 		return letzteNachricht;
 	}
 
-	public void setID(String id){
+	public void setID(String id) {
 		this.id = id;
 	}
 }
