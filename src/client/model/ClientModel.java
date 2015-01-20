@@ -36,6 +36,7 @@ public class ClientModel {
 			setId(connection.receiveLine().substring(25));
 
 			connection.sendLine(getId() + "%GUL%");
+			System.out.println(getId());
 			result = connection.receiveLine();
 			this.listUsers(result.substring(25));
 			
@@ -83,7 +84,7 @@ public class ClientModel {
 		}
 		
 		else if(result != null && result.contains("%MSG%")) {
-			return result.substring(25);
+			return result.substring(45);
 		}
 		
 		return result;
@@ -95,8 +96,8 @@ public class ClientModel {
 			userList = new String[(msg.length() / 20)];
 
 			for (int i = 0; i < (msg.length() / 20); i++) {
-				userList[i] = msg.substring(i * 20, (i + 1) * 20);
-				System.out.println(userList[i]);
+				if (!id.equals(msg.substring(i * 20, (i + 1) * 20))) userList[i] = msg.substring(i * 20, (i + 1) * 20);
+				if (userList != null) System.out.println(userList[i]);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

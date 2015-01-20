@@ -52,7 +52,8 @@ public class ServerThread extends Thread {
 					System.out.println("Eine Nachricht wurde an alle gesendet");
 
 					for (User user : Server.getUserList()) {
-						user.getTCPConnection().sendLine(request);
+						if (user.getID().equals(request.substring(25, 45))) user.getTCPConnection().sendLine(request);
+						//user.getTCPConnection().sendLine(request);
 					}
 				}
 				

@@ -1,7 +1,10 @@
 package client.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
@@ -14,6 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 public class ClientView extends JFrame {
@@ -21,6 +26,7 @@ public class ClientView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel labelEingabe = new JLabel("Eingabe: ");
+	private JLabel labelUserliste = new JLabel("Userliste");
 	private JTextField txtEingabe = new JTextField();
 	private JTextArea txtChat = new JTextArea();
 	private JButton buttonSenden = new JButton("Senden");
@@ -51,7 +57,12 @@ public class ClientView extends JFrame {
 		// initialize components
 		userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		userList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		userList.setVisibleRowCount(-1);
+		userList.setVisibleRowCount(10);
+		userList.setAlignmentX(LEFT_ALIGNMENT);
+		userList.setMaximumSize(new Dimension(160, 320));
+		
+		leftPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
+		topPanel.setBorder(new EmptyBorder(10, 10, 0, 10));
 		JScrollPane listScroller = new JScrollPane(userList);
 		listScroller.setPreferredSize(new Dimension(250, 80));
 		
@@ -60,11 +71,13 @@ public class ClientView extends JFrame {
 		
 		// initialize leftPanel
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
-		leftPanel.add(buttonUserList);
+		leftPanel.add(labelUserliste);
 		leftPanel.add(userList);
+		leftPanel.add(buttonUserList);
 		
 		// initialize middlePanel
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
+		middlePanel.add(labelEingabe);
 		middlePanel.add(txtEingabe);
 		middlePanel.add(buttonSenden);
 		
@@ -73,7 +86,6 @@ public class ClientView extends JFrame {
 		topPanel.setPreferredSize(new Dimension(100, 250));
 		topPanel.setMaximumSize(new Dimension(100, 250));
 		topPanel.add(new JScrollPane(txtChat));
-		topPanel.add(labelEingabe);
 
 		this.add(leftPanel, BorderLayout.WEST);
 		this.add(middlePanel, BorderLayout.CENTER);
@@ -86,6 +98,14 @@ public class ClientView extends JFrame {
 	
 	public String getEingabe() {
 		return this.txtEingabe.getText();
+	}
+	
+	public String getSelected() {
+		return userList.getSelectedValue();
+	}
+	
+	public boolean selectionEmpty() {
+		return userList.isSelectionEmpty();
 	}
 	
 	public void addMessage(String msg) {

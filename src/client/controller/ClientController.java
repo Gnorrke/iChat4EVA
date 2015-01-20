@@ -38,7 +38,10 @@ public class ClientController {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				model.send(model.getID() + "%MSG%" + view.getEingabe());
+				if (!view.selectionEmpty() && view.getSelected() != null) {
+					System.out.println(view.getSelected());
+					model.send(model.getID() + "%MSG%" + view.getSelected() + view.getEingabe());
+				} else view.addMessage("System: Sie haben keinen Empfänger ausgewählt!");
 
 			} catch (IOException e1) {
 				e1.printStackTrace();
