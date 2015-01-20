@@ -20,6 +20,7 @@ public class ClientController {
 
 	public void showView() {
 		this.view.setVisible(true);
+		this.view.addUserListe(model.getUserList());
 	}
 
 	/*
@@ -29,6 +30,7 @@ public class ClientController {
 
 	private void addListener() {
 		this.view.setSendMessageListener(new SendMessageListener());
+		this.view.setUserListListener(new UserListListener());
 
 	}
 
@@ -36,7 +38,7 @@ public class ClientController {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				model.send(view.getEingabe());
+				model.send(model.getID() + "%MSG%" + view.getEingabe());
 
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -44,9 +46,21 @@ public class ClientController {
 		}
 	}
 
-	public synchronized void receiveMesseage() {
+	class UserListListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			try {
+				model.send(model.getID() + "%GUL%");
+				Thread.sleep(200);
+				view.addUserListe(model.getUserList());
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public synchronized void receiveMessage() {
 		try {
-			// System.out.println("RecevieMesseage()");
 			view.addMessage(model.receive());
 
 		} catch (IOException e) {

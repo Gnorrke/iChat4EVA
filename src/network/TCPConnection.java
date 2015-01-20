@@ -20,6 +20,7 @@ public class TCPConnection {
 	public TCPConnection(String serverAddress, int serverPort)
 			throws UnknownHostException, IOException {
 		socket = new Socket(serverAddress, serverPort);
+		socket.setSoTimeout(1000 * 60/*secs*/);
 		initializeStreams();
 	}
 

@@ -6,12 +6,14 @@ import network.TCPConnection;
 
 public class ServerThread extends Thread {
 
+	private User user;
 	private TCPConnection connection;
 	private String uniqueID;
 
-	public ServerThread(TCPConnection tcpSocket, String ID) {
-		this.connection = tcpSocket;
-		this.uniqueID = ID;
+	public ServerThread(User user) {
+		this.user = user;
+		this.connection = user.getTCPConnection();
+		this.uniqueID = user.getID();
 		this.start();
 	}
 
@@ -22,32 +24,41 @@ public class ServerThread extends Thread {
 
 		while (true) {
 			try {
-
 				request = connection.receiveLine();
 
-				if (request.equals("%GETID%")) {
-					connection.sendLine(uniqueID);
-				} else if (request.equals("%GETUSERLIST%")) {
-					StringBuilder tmp = new StringBuilder();
+				if (request.substring(0, 25).contains("%DSC%")) {
+					System.out.println(uniqueID + " wird abgemeldet...");
+					break;
+				}
 
+				else if (request.substring(0, 25).contains("%GID%")) {
+					System.out.println(uniqueID + " wird abgemeldet...");
+					connection.sendLine(uniqueID + "%GID%" + uniqueID);
+				}
+
+				else if (request.substring(0, 25).contains("%GUL%")) {
+					System.out.println("Userliste wurde an " + uniqueID + " gesendet");
+					StringBuilder tmp = new StringBuilder();
+					tmp.append(uniqueID + "%GUL%");
+					
 					for (User user : Server.getUserList()) {
 						tmp.append(user.getID());
 					}
-
-					connection.sendLine(uniqueID + tmp.toString());
+					
+					connection.sendLine(tmp.toString());
 				}
-
-				else {
-					System.out.println(request.substring(20));
+				
+				else if (request.substring(0, 25).contains("%MSG%")) {
+					System.out.println("Eine Nachricht wurde an alle gesendet");
 
 					for (User user : Server.getUserList()) {
-						user.getTCPConnection().sendLine(uniqueID + request.substring(20));
+						user.getTCPConnection().sendLine(request);
 					}
-
-					// connection.sendLine(uniqueID + request.substring(20));
 				}
-
+				
+				
 			} catch (Exception e) {
+				
 				System.out.println("Der Client " + uniqueID
 						+ " hat die Verbindung geschlossen");
 				try {
@@ -56,11 +67,11 @@ public class ServerThread extends Thread {
 				} catch (IOException ex) {
 					System.out.println(ex);
 				}
+				Server.removeUser(user.getID());
 
 				break;
 			}
 		}
-
-		Server.removeUser(uniqueID);
+		Server.removeUser(user.getID());
 	}
 }

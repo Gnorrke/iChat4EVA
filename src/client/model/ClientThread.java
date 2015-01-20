@@ -18,8 +18,9 @@ public class ClientThread extends Thread {
 
 			try {
 				sleep(1);
-				controller.receiveMesseage();
+				controller.receiveMessage();
 			} catch (InterruptedException e) {
+				System.exit(-1);
 				e.printStackTrace();
 			}
 		}

@@ -11,16 +11,15 @@ public class ClientModel {
 	private static TCPConnection connection = null;
 	private String letzteNachricht;
 	private String result;
-	@SuppressWarnings("unused")
 	private String[] userList;
-	private String id;
+	private static String id;
 
 	public ClientModel() {
 
 		this.letzteNachricht = "";
 		this.result = "";
 		this.userList = new String[100];
-		this.id = "";
+		ClientModel.setId("");
 
 		connect();
 	}
@@ -33,10 +32,13 @@ public class ClientModel {
 			connection = new TCPConnection("127.0.0.1", 8888);
 
 			// Handshake
-			connection.sendLine("%GETID%");
-			id = connection.receiveLine();
+			connection.sendLine("00000000000000000000%GID%");
+			setId(connection.receiveLine().substring(25));
 
-			receiveUserList();
+			connection.sendLine(getId() + "%GUL%");
+			result = connection.receiveLine();
+			this.listUsers(result.substring(25));
+			
 			System.out.println("Die Verbindung wurde erfolgreich aufgebaut!");
 
 		} catch (Exception e) {
@@ -45,9 +47,10 @@ public class ClientModel {
 		}
 	}
 
-	public void disconnect() {
+	public static void disconnect() {
 
 		try {
+			connection.sendLine(getId() + "%DSC%");
 			connection.close();
 
 		} catch (Exception e) {
@@ -59,7 +62,7 @@ public class ClientModel {
 	public void send(String msg) throws IOException {
 
 		try {
-			connection.sendLine(id + msg);
+			connection.sendLine(msg);
 		} catch (Exception e) {
 			JOptionPane
 					.showMessageDialog(
@@ -73,20 +76,33 @@ public class ClientModel {
 
 	public String receive() throws IOException {
 
-		result = connection.receiveLine().substring(20);
-		// System.out.println(result);
+		result = connection.receiveLine();
+		if (result != null && result.contains("%GUL%")) {
+			listUsers(result.substring(25));
+			return "System: Userliste aktualisiert";
+		}
+		
+		else if(result != null && result.contains("%MSG%")) {
+			return result.substring(25);
+		}
+		
 		return result;
 	}
 
-	public void receiveUserList() throws IOException {
+	public String[] listUsers(String msg) throws IOException {
 
-		connection.sendLine("%GETUSERLIST%");
-		result = connection.receiveLine();
+		try {
+			userList = new String[(msg.length() / 20)];
 
-		for (int i = 0; i < (result.length() / 20) - 1; i++) {
-
-			System.out.println(result.substring(i * 20, (i + 1) * 20));
+			for (int i = 0; i < (msg.length() / 20); i++) {
+				userList[i] = msg.substring(i * 20, (i + 1) * 20);
+				System.out.println(userList[i]);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		return userList;
 	}
 
 	public String getLetzteNachricht() {
@@ -94,6 +110,22 @@ public class ClientModel {
 	}
 
 	public void setID(String id) {
-		this.id = id;
+		ClientModel.setId(id);
+	}
+	
+	public String getID() {
+		return getId();
+	}
+	
+	public String[] getUserList() {
+		return userList;
+	}
+
+	public static String getId() {
+		return id;
+	}
+
+	public static void setId(String id) {
+		ClientModel.id = id;
 	}
 }

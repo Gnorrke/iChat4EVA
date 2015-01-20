@@ -12,8 +12,6 @@ public class Server {
 
 	static List<User> user_list = Collections
 			.synchronizedList(new ArrayList<User>());
-	static List<TCPConnection> connection_list = Collections
-			.synchronizedList(new ArrayList<TCPConnection>());
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
@@ -45,12 +43,11 @@ public class Server {
 
 				// Client ID vergeben und in User-Liste eintragen
 				String ID = createUniqueID();
+				User newUser = new User(tcpConnection, 8888, ID);
 				addUser(tcpConnection, 8888, ID);
 
-				connection_list.add(tcpConnection);
-
 				showUserlist();
-				new ServerThread(tcpConnection, ID);
+				new ServerThread(newUser);
 
 			} catch (Exception e) {
 				System.out.println(e);
@@ -79,6 +76,8 @@ public class Server {
 	}
 
 	public static void removeUser(String id) {
+		System.out.println(id + " wurde abgemeldet!");
+		
 		for (User user : user_list) {
 			if (user.getID().equals(id)) {
 				user_list.remove(user);
