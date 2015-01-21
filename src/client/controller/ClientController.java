@@ -40,8 +40,11 @@ public class ClientController {
 			try {
 				if (!view.selectionEmpty() && view.getSelected() != null) {
 					System.out.println(view.getSelected());
-					model.send(model.getID() + "%MSG%" + view.getSelected() + view.getEingabe());
-				} else view.addMessage("System: Sie haben keinen Empfänger ausgewählt!");
+					model.send(model.getID() + "%MSG%" + view.getSelected()
+							+ view.getEingabe());
+					view.addOwnMessage(view.getEingabe());
+				} else
+					view.addMessage("System: Sie haben keinen Empfänger ausgewählt!");
 
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -64,12 +67,11 @@ public class ClientController {
 
 	public synchronized void receiveMessage() {
 		try {
-			view.addMessage(model.receive());
+			String tmp = model.receive();
+			view.addMessage(model.getLastSender() + ": " + tmp);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }

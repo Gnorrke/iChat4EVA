@@ -1,10 +1,7 @@
 package client.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
@@ -17,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
@@ -59,10 +55,11 @@ public class ClientView extends JFrame {
 		userList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		userList.setVisibleRowCount(10);
 		userList.setAlignmentX(LEFT_ALIGNMENT);
-		userList.setMaximumSize(new Dimension(160, 320));
+		userList.setMaximumSize(new Dimension(160, 340));
 		
 		leftPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
 		topPanel.setBorder(new EmptyBorder(10, 10, 0, 10));
+		middlePanel.setBorder(new EmptyBorder(0, 0, 0, 10));
 		JScrollPane listScroller = new JScrollPane(userList);
 		listScroller.setPreferredSize(new Dimension(250, 80));
 		
@@ -112,6 +109,10 @@ public class ClientView extends JFrame {
 		this.txtChat.setText(this.txtChat.getText() + "\n" + msg);
 	}
 	
+	public void addOwnMessage(String msg) {
+		this.txtChat.setText(this.txtChat.getText() + "\n" +  "You: " + msg);
+	}
+
 	public void addUserListe(String[] userList) {
 		this.userList.setListData(userList);
 	}
