@@ -26,17 +26,17 @@ public class ServerThread extends Thread {
 			try {
 				request = connection.receiveLine();
 
-				if (request.substring(0, 25).contains("%DSC%")) {
+				if (request.contains("%DSC%")) {
 					System.out.println(uniqueID + " wird abgemeldet...");
 					break;
 				}
 
-				else if (request.substring(0, 25).contains("%GID%")) {
+				else if (request.contains("%GID%")) {
 					System.out.println(uniqueID + " wird abgemeldet...");
 					connection.sendLine(uniqueID + "%GID%" + uniqueID);
 				}
 
-				else if (request.substring(0, 25).contains("%GUL%")) {
+				else if (request.contains("%GUL%")) {
 					System.out.println("Userliste wurde an " + uniqueID + " gesendet");
 					StringBuilder tmp = new StringBuilder();
 					tmp.append(uniqueID + "%GUL%");
@@ -49,11 +49,10 @@ public class ServerThread extends Thread {
 				}
 				
 				else if (request.substring(0, 25).contains("%MSG%")) {
-					System.out.println("Eine Nachricht wurde an alle gesendet");
 
 					for (User user : Server.getUserList()) {
 						if (user.getID().equals(request.substring(25, 45))) user.getTCPConnection().sendLine(request);
-						//user.getTCPConnection().sendLine(request);
+						System.out.println("Eine Nachricht wurde an " + request.substring(25, 45) + "gesendet");
 					}
 				}
 				
