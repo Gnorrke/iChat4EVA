@@ -19,7 +19,7 @@ public class ClientModel {
 
 	private static final String PATTERN = "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 	private static final String PATTERNPORT = "([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])";
-
+	private static final String urlRegex = "^[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 	public ClientModel() {
 
 		this.letzteNachricht = "";
@@ -39,12 +39,13 @@ public class ClientModel {
 			Matcher matcher;
 			String inputIP, inputPort;
 			
+			
 			do {
 				inputIP = JOptionPane
 						.showInputDialog("Bitte geben Sie eine IP Adresse ein!");
 				matcher = pattern.matcher(inputIP);
 
-			} while (!matcher.matches());
+			} while (!(inputIP.matches(urlRegex) || matcher.matches()));
 			
 			do {
 				inputPort = JOptionPane

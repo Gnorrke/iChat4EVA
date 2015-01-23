@@ -119,6 +119,7 @@ public class ClientView extends JFrame {
 
 	public void setSendMessageListener(ActionListener l) {
 		this.buttonSenden.addActionListener(l);
+		this.txtEingabe.addActionListener(l);
 	}
 	
 	public void setUserListListener(ActionListener l) {

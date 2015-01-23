@@ -43,6 +43,7 @@ public class ClientController {
 					model.send(model.getID() + "%MSG%" + view.getSelected()
 							+ view.getEingabe());
 					view.addOwnMessage(view.getEingabe());
+					view.resetView();
 				} else
 					view.addMessage("System: Sie haben keinen Empfänger ausgewählt!");
 
