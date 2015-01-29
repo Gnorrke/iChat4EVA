@@ -5,8 +5,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
-
 import network.TCPConnection;
+
+/**
+ * Die Klasse ClientModel realisiert das Model im MVC-Pattern des Clienten.
+ * Sie bietet die Methoden, um die Verbindung mit dem Server herzustellen, Nachrichten zu senden,
+ * Nachrichten zu empfangen und das Empfangen der Userliste 
+ *
+ * @see ClientController
+ * @see ClientView
+ * @see TCPConnection
+ * 
+ * @author Max Niederauer, Fabian Kalweit
+ */
 
 public class ClientModel {
 
@@ -17,6 +28,9 @@ public class ClientModel {
 	private String[] userList;
 	private static String id;
 
+	/**
+	 * Definition der regulären Ausdrücke, um IP-Adresse und Port zu überprüfen
+	 */
 	private static final String PATTERN = "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 	private static final String PATTERNPORT = "([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])";
 	private static final String urlRegex = "^[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
@@ -30,6 +44,12 @@ public class ClientModel {
 
 		connect();
 	}
+	
+	/**
+	 * Frägt vom Nutzer mittels JOptionPane die IP-Adresse und den Port des Servers ab.
+	 * Bei erfolgreicher Eingabe wird eine TCPConnection zum Server aufgebaut.
+	 * Zudem erfolgt eine Art "Handshake", der die uniqueID des Clienten vom Server holt und die Userliste aktualisiert
+	 */
 
 	public void connect() {
 
@@ -74,6 +94,10 @@ public class ClientModel {
 			System.exit(-1);
 		}
 	}
+	
+	/**
+	 * Die Verbindung zum Server wird getrennt. Dies geschieht mit dem FLAG %DSC%
+	 */
 
 	public static void disconnect() {
 
@@ -87,6 +111,11 @@ public class ClientModel {
 		}
 	}
 
+	/**
+	 * Mit Hilfe der send()-Methode wird ein String (msg) an den Server geschickt
+	 * @param msg - Nachricht, die an den Server geschickt wird
+	 * @throws IOException
+	 */
 	public void send(String msg) throws IOException {
 
 		try {
@@ -102,6 +131,12 @@ public class ClientModel {
 		}
 	}
 
+	/**
+	 * Die receive()-Methode empfängt Nachrichten vom Server und parst diese entprechend.
+	 *  Dies wird mit den Flags, die in der Nachricht enthalten sind, realisiert.
+	 * @return String - Die Nachricht, welche der Server geschickt hat
+	 * @throws IOException
+	 */
 	public String receive() throws IOException {
 
 		result = connection.receiveLine();
@@ -119,6 +154,12 @@ public class ClientModel {
 		return result;
 	}
 
+	/**
+	 * Die listUsers(String msg)-Methode parst den vom Server gesendeten String in die einzelnen UserIDs
+	 * @param msg - Die zusammenhängenden UserIDs (Userliste)
+	 * @return String[] mit den einzelnen UserIDs
+	 * @throws IOException
+	 */
 	public String[] listUsers(String msg) throws IOException {
 
 		try {
@@ -137,6 +178,9 @@ public class ClientModel {
 		return userList;
 	}
 
+	/**
+	 * Die benötigten Getter- und Setter Methoden
+	 */
 	public String getLetzteNachricht() {
 		return letzteNachricht;
 	}

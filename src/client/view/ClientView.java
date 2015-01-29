@@ -17,6 +17,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
+/**
+ * Die ClientView Klasse realisiert die View Komponente des MVC-Pattern des Clienten.
+ * Sie baut die grafische Benutzeroberfläche und weist den Komponenten die Listener zu.
+ * @author Max
+ *
+ */
 public class ClientView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -40,7 +46,7 @@ public class ClientView extends JFrame {
 		initForm();
 	}
 	
-	/*
+	/**
 	 * JForm wird initialisiert und alle Elemente darauf positioniert
 	 */
 	private void initForm() {
@@ -89,6 +95,9 @@ public class ClientView extends JFrame {
 		this.add(topPanel, BorderLayout.PAGE_START);
 	}
 	
+	/**
+	 * Alle benötigten Getter- und Setter-Methoden
+	 */
 	public void resetView() {
 		this.txtEingabe.setText("");
 	}
@@ -117,11 +126,19 @@ public class ClientView extends JFrame {
 		this.userList.setListData(userList);
 	}
 
+	/**
+	 * Listener werden den Buttons und dem Textfeld zugewiesen
+	 * @param l
+	 */
 	public void setSendMessageListener(ActionListener l) {
 		this.buttonSenden.addActionListener(l);
 		this.txtEingabe.addActionListener(l);
 	}
 	
+	/**
+	 * Listener wird der Userliste (JList) zugewiesen
+	 * @param l
+	 */
 	public void setUserListListener(ActionListener l) {
 		this.buttonUserList.addActionListener(l);
 	}

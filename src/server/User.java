@@ -4,6 +4,12 @@ import java.net.InetAddress;
 
 import network.TCPConnection;
 
+/**
+ * Die Klasse User dient dazu jedem verbundenen Clienten Informationen zuzuordnen.
+ * Diese Klasse enthält die Ip-Adresse, Port, TCPConnection und die uniqueID
+ * @author Max
+ *
+ */
 public class User {
 	
 	private InetAddress address;
@@ -17,6 +23,10 @@ public class User {
 		this.port = port;
 		this.ID = ID;
 	}
+	
+	/*
+	 * Getter- und Setter der Member
+	 */
 	
 	public InetAddress getAddress() {
 		return address;

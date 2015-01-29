@@ -11,12 +11,28 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Die Klasse TCPConnection stellt die zentrale Klasse für die Kommunikation für
+ * den Server und den Clienten dar. Mit Hilfe von TCP werden Nachrichten über Sockets übertragen.
+ * 
+ * @see DemoClient
+ * @see Server
+ * @author Max
+ *
+ */
 public class TCPConnection {
 
 	private Socket socket;
 	private BufferedReader inputStream;
 	private BufferedWriter outputStream;
 
+	/**
+	 * Der Konstruktor legt mit Hilfe der serverAddress und des serverPorts ein neues Socket an und legt dein Timeout fest
+	 * @param serverAddress - Adresse des Kommunikationspartners
+	 * @param serverPort - Port auf dem der Kommunikationspartner wartet
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	public TCPConnection(String serverAddress, int serverPort)
 			throws UnknownHostException, IOException {
 		socket = new Socket(serverAddress, serverPort);
@@ -29,12 +45,18 @@ public class TCPConnection {
 		initializeStreams();
 	}
 
+	/**
+	 * Die Methode sendLine(String s) sendet einen String über den Output-Stream an den Kommunikationspartner
+	 */
 	public void sendLine(String s) throws IOException {
 		outputStream.write(s);
 		outputStream.newLine();
 		outputStream.flush();
 	}
 
+	/**
+	 * Die Methode receiveLine() empfängt einen String über den Input-Stream an den Kommunikationspartner
+	 */
 	public String receiveLine() throws IOException {
 		String tmp = "";
 		try {
@@ -49,6 +71,10 @@ public class TCPConnection {
 		return tmp;
 	}
 
+	/**
+	 * Schließt die Verbindung
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
 		socket.close();
 	}

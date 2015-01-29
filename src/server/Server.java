@@ -8,6 +8,15 @@ import java.util.UUID;
 
 import network.TCPConnection;
 
+/**
+ * Die Klasse Server stellt die Realisierung des Server dar. Dieser startet ein ServerSocket und
+ * lauscht auf dem Port 8888 auf Anfragen. Bei Anfragen startet der Server einen ServerThread für jeden Clienten.
+ * Zudem orgranisiert der Server die Clienten in einer syncronizedList.
+ * 
+ * @see ServerThread
+ * @author Max
+ *
+ */
 public class Server {
 
 	static List<User> user_list = Collections
@@ -33,9 +42,11 @@ public class Server {
 
 				System.out.println("Warten auf Verbindungsaufbau...");
 
-				/*
-				 * Auf Anfrage von einem Client warten
-				 * 
+				/**
+				 * Auf Anfrage von einem Client warten, danach wird ein ServerThread gestartet,
+				 * welcher den Handshake und alles andere übernimmt
+				 *  
+				 * @see ServerThread
 				 * @see TCPConnection
 				 */
 				TCPConnection tcpConnection = new TCPConnection(
@@ -55,10 +66,17 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Erstellt eine 20-stellige UUID, die jeden Clienten zugewiesen wird
+	 * @return
+	 */
 	private static String createUniqueID() {
 		return UUID.randomUUID().toString().substring(0, 20);
 	}
 
+	/**
+	 * Gibt in der Konsole des Servers die verbundenen User aus
+	 */
 	public static void showUserlist() {
 		System.out.println("Userliste: \n");
 
@@ -71,10 +89,22 @@ public class Server {
 		System.out.println();
 	}
 
+	/**
+	 * Die Methode addUser(TCPConnection address, int port, String id) erstellt einen User für jeden Clienten
+	 * und fügt diese der user_list hinzu
+	 * @param address - IP-Adresse des Clienten
+	 * @param port - Port des Clienten
+	 * @param id - uniqueID des Clienten 
+	 */
 	public static void addUser(TCPConnection address, int port, String id) {
 		user_list.add(new User(address, port, id));
 	}
 
+	/**
+	 * Die Methode removeUser(String id) löscht den Clienten mit der id aus der user_list.
+	 * Da mehrere Threads gleichzeitig darauf zugreifen müssen wird eine synchronizedList verwendet
+	 * @param id - uniqueID der Clienten
+	 */
 	public static void removeUser(String id) {
 		System.out.println(id + " wurde abgemeldet!");
 		
@@ -86,6 +116,10 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Getter für die user_list
+	 * @return 
+	 */
 	public static synchronized List<User> getUserList() {
 		return user_list;
 	}

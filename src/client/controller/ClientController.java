@@ -3,14 +3,29 @@ package client.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
 import client.model.ClientModel;
 import client.view.ClientView;
+
+/**
+ * Die Klasse ClientController realisiert den Controller im MVC-Pattern des Clienten.
+ * Sie holt sich die Nachrichten und die Userliste vom Model und gibt sie an die View weiter.
+ * Außerdem holt der Controller sich die Eingaben der aus der GUI und gibt diese an ClientModel weiter
+ *
+ * @see ClientModel
+ * @see ClientView
+ * 
+ * @author Max Niederauer, Fabian Kalweit
+ */
 
 public class ClientController {
 
 	private ClientView view;
 	private ClientModel model;
 
+	/**
+	 * Dem Controller wird die Model und die View zugewiesen
+	 */
 	public ClientController() {
 		this.model = new ClientModel();
 		this.view = new ClientView();
@@ -18,12 +33,15 @@ public class ClientController {
 		addListener();
 	}
 
+	/**
+	 * Die im Kontrsuktur generierte View wird dargestellt
+	 */
 	public void showView() {
 		this.view.setVisible(true);
 		this.view.addUserListe(model.getUserList());
 	}
 
-	/*
+	/**
 	 * Die Listener, die wir aus den internen Klassen generieren werden der View
 	 * bekannt gemacht, sodass mit dem Controller kommuniziert werden kann
 	 */
@@ -34,6 +52,11 @@ public class ClientController {
 
 	}
 
+	/**
+	 * Listener Klasse für das Senden von Nachrichten aus dem JTextArea
+	 * @author Max
+	 *
+	 */
 	class SendMessageListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -53,6 +76,11 @@ public class ClientController {
 		}
 	}
 
+	/**
+	 * Listener für die JList (Userliste)
+	 * @author Max
+	 *
+	 */
 	class UserListListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
